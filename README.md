@@ -16,17 +16,108 @@ A good explanation feels like learning, and that feeling is the trap. What you g
 
 So the skill spends its effort on making you produce things, and on not letting you off the hook when producing gets unpleasant.
 
-## How a session goes
+## Install
 
-It reads your material first. Slides for the skeleton, the book for depth, one section at a time. Never the whole discipline at once.
+```bash
+git clone https://github.com/guilherme-luiz-cella/study-lab.git
+cp -r study-lab/skills/study-lab ~/.claude/skills/
+```
 
-Then it opens with a question. No summary, no plan, no menu of options. Small enough to answer in a breath, because a session you can't bring yourself to start is a session that doesn't happen.
+On Windows, the target is `%USERPROFILE%\.claude\skills\`.
 
-You commit to an answer. "I don't know" doesn't buy you a hint; it just gets you asked again with a "guess anyway". A wrong guess followed by the correction sticks better than reading the right answer cold. That's one of the more annoying findings in learning research, and this skill leans on it hard.
+That's it. There is nothing to configure and no API key of its own. Run `/help` in Claude Code if you want to confirm the skill was picked up.
 
-Then it climbs. State the definition. Apply it to a case. Tell two lookalike cases apart. Find where the rule breaks. Move it to a problem from outside the material. Explain it to someone who never took the course. It won't sit on the easy rung just because you keep getting those right.
+## Step by step
 
-At the end it asks you to say everything the section established, from memory, no scrolling. Then it writes the log.
+**1. Put your material in one folder.**
+
+PDFs, slides, lecture notes, a syllabus, whatever you actually have. The skill reads PDFs directly, so no conversion step.
+
+```
+graph-theory/
+  lecture-04-graph-basics.pdf
+  lecture-05-connectivity.pdf
+  textbook-chapter-2.pdf
+```
+
+**2. Open Claude Code in that folder.**
+
+```bash
+cd graph-theory
+claude
+```
+
+**3. Start a session and name the topic.**
+
+```
+/study-lab connectivity and bridges
+```
+
+You can also just ask in plain language: "study lecture 5 with me", "quiz me on connectivity", "estudar grafos". Naming a topic is better than saying "study everything" because one session covers one section properly instead of skimming a whole course.
+
+**4. Answer the first question.**
+
+It opens with a question, not a summary. It will be small on purpose. Answer it even if you're unsure, because how you answer sets the level for everything after it.
+
+**5. Guess when you don't know.**
+
+"I don't know" gets you asked again with a "guess anyway". This is not the skill being stubborn. Producing a wrong answer and then seeing the right one beats reading the right one cold, and the effect only works if you actually commit to something first.
+
+**6. Ask for hints, but expect them to be stingy.**
+
+Hints come one rung at a time: it names the region of your mistake, then asks a smaller question, then gives a concrete example, and only after three real attempts does it state the answer. Asking "what is it?" does not count as an attempt. Asking what a symbol means is fine and gets answered straight, since notation is vocabulary, not the answer.
+
+**7. Stop whenever you want.**
+
+Say "that's enough" or "para por hoje". Ten minutes counts as a session. Before closing, it asks you to recall the whole section from memory, then writes the log.
+
+**8. Read the log.**
+
+It lands in `study-log/<topic>.md` next to your material:
+
+```markdown
+## Errou
+- Θ vs average case: answered "Θ is the average case", correct is "Θ bounds whichever
+  function you chose". Cause: fused the choice of case with the choice of notation.
+
+## Firmou com dica
+## Acertou limpo
+## Próxima sessão
+```
+
+The Cause line is the whole point. "Confused Θ with the average case" is a fact you can fix. "Got question 3 wrong" is not.
+
+**9. Come back to the same topic later.**
+
+Run `/study-lab` on it again and the first thing it does is read that log and re-ask what you missed, cold, before touching anything new.
+
+## What a session actually looks like
+
+```
+you  › /study-lab asymptotic notation
+
+lab  › Linear search on an array of n elements, worst case. Four claims,
+       true or false, item by item:
+       1. best case is Θ(1)   2. worst case is Θ(n)
+       3. worst case is O(n²) 4. O(n²) is the tightest upper bound available
+
+you  › 3
+
+lab  › 3 is true. But 1 and 2 are true as well, and you left them out.
+       Only 4 is false.
+       Take 2. Worst case is n comparisons, so the cost function is n.
+       Claim 2 says Θ(n) and claim 3 says O(n²), both true of that same
+       function. What does each notation assert that the other doesn't?
+       Answer with the definition, not an example.
+
+you  › Θ is the average case and O is the ceiling
+
+lab  › Half right: O is the ceiling. Θ is not the average case.
+       Look at claim 2, which you just accepted: "the worst case is Θ(n)".
+       If Θ meant average case, that sentence contradicts itself.
+```
+
+That is the shape of it: no opening summary, one question at a time, and the correction lands on something you already committed to.
 
 ## The hint rules
 
@@ -42,36 +133,9 @@ This is the part tutoring usually gets wrong, so it's written down:
 
 Tutoring systems show a consistent negative association between unproductive hint use and learning. The hint button is the escape hatch. This one is narrow on purpose.
 
-## The log
+## Language
 
-Each session writes `study-log/<topic>.md` next to your material:
-
-```markdown
-## Errou
-- Θ vs caso médio: answered "Θ is the average case", correct is "Θ bounds whichever
-  function you chose". Cause: fused the choice of case with the choice of notation.
-
-## Firmou com dica
-## Acertou limpo
-## Próxima sessão
-```
-
-The Cause line is the whole point. "Confused Θ with the average case" is a fact you can fix. "Got question 3 wrong" is not. Next session on that topic reads the log and opens with the missed items, cold, before anything new.
-
-## Install
-
-```bash
-git clone https://github.com/guilherme-luiz-cella/study-lab.git
-cp -r study-lab/skills/study-lab ~/.claude/skills/
-```
-
-Then, in Claude Code:
-
-```
-/study-lab
-```
-
-Or just say "study this with me" or "quiz me" and point at the material. It runs in whatever language your material is in, so Portuguese slides get a Portuguese session.
+It runs in whatever language your material is in. Portuguese slides get a Portuguese session, including the log. Technical terms stay in the wording the material uses, so you study the vocabulary you'll be tested on.
 
 ## Design notes
 
