@@ -61,7 +61,7 @@ The Cause line is the whole point. "Confused Θ with the average case" is a fact
 ## Install
 
 ```bash
-git clone https://github.com/<you>/study-lab.git
+git clone https://github.com/guilherme-luiz-cella/study-lab.git
 cp -r study-lab/skills/study-lab ~/.claude/skills/
 ```
 
