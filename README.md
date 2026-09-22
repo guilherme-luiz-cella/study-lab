@@ -1,38 +1,46 @@
 # study-lab
 
-A Claude Code skill that studies *with* you instead of summarizing *at* you.
+A Claude Code skill that studies with you instead of summarizing at you.
 
-Point it at your course material and it runs the session as an experiment: it asks first, makes you commit to an answer before it reveals anything, gives the smallest hint that could unstick you — one step at a time — and writes down what you missed so the next session opens there.
+Point it at your slides and it runs the session backwards from what you'd expect. It asks, you answer, and only then does it tell you anything. Say "I don't know" and it makes you guess anyway.
 
 One rule holds the whole thing together:
 
-> **You produce the answer before Claude does.** Explaining first feels helpful and teaches almost nothing. Recognition is not recall.
+> You produce the answer before Claude does.
 
 ## Why not just ask Claude to explain it
 
-Because you will nod along and remember nothing. Reading a good explanation feels like learning, and the feeling is the problem: it is fluency with the *text*, not access to the *idea*. The moment that actually builds memory is the one where you try to produce the answer and find out whether you can.
+Because you'll nod along and remember nothing. I know because that's exactly what I was doing before I wrote this.
 
-So this skill spends its effort on making you produce things, and on not letting you off the hook when producing is uncomfortable.
+A good explanation feels like learning, and that feeling is the trap. What you get is fluency with the text, not access to the idea. The part that actually builds memory is the uncomfortable part: trying to produce the answer and finding out whether you can.
+
+So the skill spends its effort on making you produce things, and on not letting you off the hook when producing gets unpleasant.
 
 ## How a session goes
 
-1. **It reads your material.** Slides for the skeleton, the book for depth, one section at a time. Never the whole discipline at once.
-2. **It opens with a question.** No summary, no plan, no menu of options. Small enough to answer in a breath, so the session costs almost nothing to start.
-3. **You commit.** "I don't know" is not an answer and does not earn a hint — it asks you to guess anyway. A wrong guess followed by the correction sticks better than reading the right answer cold.
-4. **It climbs.** Recall → apply → discriminate two lookalike cases → find where the rule breaks → transfer to something outside the material → explain it in your own words. It will not park on easy questions because they go well.
-5. **It rations hints.** Four rungs — locate, decompose, concrete example, answer — one rung per message, and the answer only after three real attempts.
-6. **It closes with free recall**, then writes a log.
+It reads your material first. Slides for the skeleton, the book for depth, one section at a time. Never the whole discipline at once.
+
+Then it opens with a question. No summary, no plan, no menu of options. Small enough to answer in a breath, because a session you can't bring yourself to start is a session that doesn't happen.
+
+You commit to an answer. "I don't know" doesn't buy you a hint; it just gets you asked again with a "guess anyway". A wrong guess followed by the correction sticks better than reading the right answer cold. That's one of the more annoying findings in learning research, and this skill leans on it hard.
+
+Then it climbs. State the definition. Apply it to a case. Tell two lookalike cases apart. Find where the rule breaks. Move it to a problem from outside the material. Explain it to someone who never took the course. It won't sit on the easy rung just because you keep getting those right.
+
+At the end it asks you to say everything the section established, from memory, no scrolling. Then it writes the log.
 
 ## The hint rules
 
-This is the part most tutoring gets wrong, so it is written down explicitly:
+This is the part tutoring usually gets wrong, so it's written down:
 
-- **No autocompleting.** If you are groping for a word, it does not hand you the word. A half-answer gets a question back, not the missing half.
-- **One hint rung per message, then it stops.** No stacking hints because the silence got long.
-- **Three genuine attempts before the answer.** Asking "what is it?", asking what a symbol means, or restating the question do not count as attempts. Notation questions get answered straight — that is vocabulary, not the answer — and then the original question comes back unchanged.
-- **Nothing passes on a nod.** "Got it" does not close a point. Restating the rule in your own words closes it.
+**No autocompleting.** If you're groping for a word, it does not hand you the word. A half-answer gets a question back, never the missing half.
 
-Tutoring systems show a consistent negative association between unproductive hint use and learning. The hint button is the escape hatch, so this skill makes it narrow on purpose.
+**One hint rung per message, then it stops.** No stacking three hints because the silence got long.
+
+**Three real attempts before the answer.** Asking "what is it?" is not an attempt. Asking what a symbol means isn't either, but that one gets answered straight, because notation is vocabulary and not the answer. Then the original question comes back unchanged.
+
+**"Got it" doesn't close a point.** Saying the rule back in your own words closes it.
+
+Tutoring systems show a consistent negative association between unproductive hint use and learning. The hint button is the escape hatch. This one is narrow on purpose.
 
 ## The log
 
@@ -48,7 +56,7 @@ Each session writes `study-log/<topic>.md` next to your material:
 ## Próxima sessão
 ```
 
-The **Cause** line is the point. "Confused Θ with average case" is a fixable fact; "got question 3 wrong" is not. The next session on that topic reads the log and opens with the missed items, cold, before any new material.
+The Cause line is the whole point. "Confused Θ with the average case" is a fact you can fix. "Got question 3 wrong" is not. Next session on that topic reads the log and opens with the missed items, cold, before anything new.
 
 ## Install
 
@@ -63,13 +71,15 @@ Then, in Claude Code:
 /study-lab
 ```
 
-Or just say "study this with me" / "estudar" / "quiz me" and point at the material. It runs in the language of your material — Portuguese slides mean a Portuguese session.
+Or just say "study this with me" or "quiz me" and point at the material. It runs in whatever language your material is in, so Portuguese slides get a Portuguese session.
 
 ## Design notes
 
-The skill is tuned for learners who do better with externally enforced structure than with self-directed study, and who are more easily derailed by a high cost of entry than by a hard question. That shows up as: Claude picks the method instead of asking you to, the format never changes between sessions, questions state the form of the answer they want, the numbers you need are repeated in the question instead of three messages up, and a ten-minute session counts as a real session.
+The skill assumes a learner who does better with structure imposed from outside than with a study plan they have to maintain themselves, and who gets derailed by a high cost of entry faster than by a hard question.
 
-`SKILL.md` cites the research behind each of those choices at the bottom of the file.
+In practice that means Claude picks the method instead of asking you to. The format never changes between sessions. Questions say what form the answer should take. The numbers you need are repeated in the question instead of sitting three messages up. A ten-minute session counts as a real session and gets logged like any other.
+
+`SKILL.md` cites the research behind each of those at the bottom of the file.
 
 ## License
 
